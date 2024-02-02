@@ -1,0 +1,53 @@
+<!-- templates/printer_performance_analysis.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+    <div id="HomeButton">
+        <li><a href="/index">DTS402 Challenge - Alexanda Lyon</a></li>
+
+    </div>
+
+
+
+
+    <div id="textContainer">
+        <div id="PrintPerformanceAnalysis">
+            <h1>The performace of printers throughout the day.</h1>
+        </div>
+        <div id="description">
+            <p>Through this analysis, We printers with the most and less usage.</p>
+        </div>
+    </div>
+
+
+
+
+</body>
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printer Performance Analysis</title>
+    {{ plot|safe }}
+</head>
+
+
+<style>
+        body, html {
+        height: 38%;
+        margin: 0;
+        padding: 0;
+    }
+    #textContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+</style>
+
+</html>
