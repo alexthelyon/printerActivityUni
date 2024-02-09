@@ -1,0 +1,140 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #E5ECF6;
+
+}
+
+#HomeButton {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+#header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: solid;    
+}
+
+
+
+
+
+
+
+.graph-container {
+    width: 90%; /* Set the width of the container */
+    margin: 0 auto; /* Center the container */
+    border-radius: 20px; /* Adjust the value to control the curvature */
+    overflow: hidden; /* Ensure content within the container respects the rounded corners */
+    margin-bottom: 50px;
+}
+
+.changeable_graph_container {
+    width: 90%; /* Set the width of the container */
+    margin: 0 auto; /* Center the container */
+    border-radius: 20px; /* Adjust the value to control the curvature */
+    overflow: hidden; /* Ensure content within the container respects the rounded corners */
+}
+
+
+
+#plotButtons {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px; /* Adjust the value to control the curvature */
+    overflow: hidden; /* Ensure content within the container respects the rounded corners */
+}
+
+/*--------------------------------------------------------------------------------------------------------------*/
+
+#EfficiencySection {
+    background-color: white; /* Set background color to white */
+    padding: 10px; /* Add some padding for spacing */
+    margin-top: 20px; /* Add some margin on top */
+    border-radius: 20px; /* Add rounded corners */
+    width: 85%; /* Set the width to match the other sections */
+    margin-left: auto; /* Center the container */
+    margin-right: auto; /* Center the container */
+}
+
+/* Most Effective Printers Analysis */
+#MostEffectivePrintersAnalysis {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+/* Top Text */
+#Top10Printers_TopText {
+    text-align: center;
+}
+
+#Top10Printers_TopText h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: underline;
+}
+
+#Top10Printers_TopText p {
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+/* Top 10 Printers Table */
+#Top10PrintersTable {
+    margin-top: 20px;
+    margin-left: auto;  /* Center the table horizontally */
+    margin-right: auto; /* Center the table horizontally */
+    width: 90%; /* Set the width of the table */
+    background-color: white; /* Set the background color to white */
+    border-bottom: 2px solid white; /* Add a white border underneath */
+
+
+}
+
+#Top10PrintersTable table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+
+
+}
+
+#Top10PrintersTable th, #Top10PrintersTable td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+#Top10PrintersTable th {
+    background-color: #f2f2f2;
+}
+
+/* Efficiency Explanation */
+#EfficiencyExplanation {
+    margin-top: 20px;
+
+}
+
+#EfficiencyExplanation p {
+    font-size: 16px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+
+    
+}

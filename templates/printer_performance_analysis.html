@@ -1,53 +1,104 @@
 <!-- templates/printer_performance_analysis.html -->
 <!DOCTYPE html>
 <html lang="en">
-
-<body>
-
-    <div id="HomeButton">
-        <li><a href="/index">DTS402 Challenge - Alexanda Lyon</a></li>
-
-    </div>
-
-
-
-
-    <div id="textContainer">
-        <div id="PrintPerformanceAnalysis">
-            <h1>The performace of printers throughout the day.</h1>
-        </div>
-        <div id="description">
-            <p>Through this analysis, We printers with the most and less usage.</p>
-        </div>
-    </div>
-
-
-
-
-</body>
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Printer Performance Analysis</title>
-    {{ plot|safe }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='printer_performance_style.css') }}">
+
 </head>
+<body>
 
 
-<style>
-        body, html {
-        height: 38%;
-        margin: 0;
-        padding: 0;
-    }
-    #textContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-    }
-</style>
+    <div id="HomeButton">
+        <p><a href="/">DTS402 Challenge - Alexanda Lyon</a></p>
+    </div>
 
+    <div id="PageHeader">
+        <div id="header">
+            <div id="PrintPerformanceAnalysis">
+                <h1>Printer Performance Throughout The Day</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graph 1 (Printer Performance) -->
+    <div id="IndividualPrinterUsage">
+
+        <div class="graph-container">
+            <div class="graph" id="plot1">
+                {{ plot1 | safe }}
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Graph 2 & 3 (Print Frequency) -->
+    <div id="PrintFrequency">
+        <div class="changeable_graph_container">
+            <!-- Graph 2 (Line graph) -->
+            <div class="changeable_graph" id="plot2">
+                {{ plot2 | safe }}
+            </div>
+
+            <!-- Graph 2 (Bar graph) -->
+            <div class="changeable_graph" id="plot3">
+                {{ plot3 | safe }}
+            </div>
+        </div>
+
+        <div id="plotButtons">
+            <button onclick="showPlot('plot2')">Show Line Graph</button>
+            <button onclick="showPlot('plot3')">Show Bar Graph</button>
+        </div>
+
+    </div>
+
+    <!-- Table 1 (Most Effective Printers) -->
+    <div id="EfficiencySection">
+
+        <div id="MostEffectivePrintersAnalysis">
+            <div id="Top10Printers_TopText">
+                <h1>Top 10 Most Efficient Printers</h1>
+                <p>This table shows the top 10 most efficient printers based on their print performance.</p>
+            </div>
+            
+            <div id="Top10PrintersTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Printer Name</th>
+                            <th>Total Print Duration (seconds)</th>
+                            <th>Total Prints</th>
+                            <th>Average Print Duration (seconds)</th>
+                            <th>Efficiency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for index, row in printer_summary.iterrows() %}
+                        <tr>
+                            <td>{{ row['PrinterName'] }}</td>
+                            <td>{{ row['total_duration'] }}</td>
+                            <td>{{ row['total_prints'] }}</td>
+                            <td>{{ row['average_duration'] }}</td>
+                            <td>{{ row['efficiency'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="EfficiencyExplanation">
+                <p>The efficiency score is calculated based on the printer's average print duration and total number of prints. <br> Higher efficiency score indicates that a printer is more efficient in terms of both speed and utilization.</p>
+            </div>
+
+        </div>
+    </div>
+
+
+    
+    <script src="{{ url_for('static', filename='printer_performance_script.js') }}"></script>
+</body>
 </html>
+
