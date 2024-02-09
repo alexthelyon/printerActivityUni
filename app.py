@@ -1,16 +1,41 @@
 # app.py
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
 import pandas as pd
 import plotly.express as px
 import numpy as np
 from scipy import stats
+import bleach #For HTML Sanitation and XSS Prevention
+import logging #To Log Events
 
 
 
 app = Flask(__name__)
 
-# Read data from Excel file
-data = pd.read_excel("PrinterActivity2.xlsx")
+# Configure logging
+logging.basicConfig(filename='app.log', level=logging.DEBUG,
+                    format='%(asctime)s %(levelname)s %(message)s')
+
+# Define the allowed HTML tags and attributes for sanitization
+ALLOWED_TAGS = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul']
+ALLOWED_ATTRIBUTES = {'*': ['class'], 'a': ['href', 'title']}
+
+
+def validate_data(data):
+    # Check if the required columns are present
+    required_columns = ['PrinterName', 'DocumentID', 'PrintDurationSeconds', 'PrintStartTimestamp']
+    if not all(col in data.columns for col in required_columns):
+       logging.error("Missing required columns in the Excel data")     
+       raise ValueError("Missing required columns in the Excel data")
+
+
+
+try:
+    data = pd.read_excel("PrinterActivity2.xlsx")
+    validate_data(data)
+except Exception as e:
+    logging.error(f"Error reading or validating Excel data: {e}")    
+    print("Error reading Excel file:", e)
+    abort(500, "Error reading Excel file")
 
 
 @app.route('/')
@@ -88,7 +113,10 @@ def printer_performance_analysis():
     # Select the top 10 outliers based on their print duration
     top_outliers = outliers.nlargest(10, 'PrintDurationSeconds')[['DocumentID', 'PrinterName', 'PrintDurationSeconds', 'PrintStartTimestamp']]
 
-
+    # ------------------------------------------------------------------------------------Sanitize input before rendering in HTML to prevent XSS vulnerabilities
+    user_input = "<script>alert('XSS vulnerability')</script>"
+    sanitized_input = bleach.clean(user_input, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
+    logging.info("User input sanitized successfully")
 
     #Render everything
     return render_template('printer_performance_analysis.html', 
@@ -96,7 +124,22 @@ def printer_performance_analysis():
                            plot2=fig2.to_html(include_plotlyjs='cdn'), 
                            plot3=fig3.to_html(include_plotlyjs='cdn'), 
                            printer_summary=top_efficient_printers,
-                           top_outliers=top_outliers)
+                           top_outliers=top_outliers,
+                           sanitized_input=sanitized_input)
+
+
+
+# Error Handling Below
+# Makes better user experience and prevent sensitive information from being exposed in error messages.
+@app.errorhandler(404)
+def not_found_error(error):
+    logging.error("Page not found")
+    return render_template('error.html', error_message="Page not found"), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    logging.error("Internal Server Error")
+    return render_template('error.html', error_message="Internal Server Error"), 500
 
 
 

@@ -1,0 +1,18 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #E5ECF6;
+
+
+}
+
+#LINK {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: solid;
+    }

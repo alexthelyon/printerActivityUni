@@ -6,12 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="refresh" content="delay_time; URL=printer_performance_analysis.html" />
     <title>Print Job Data Analysis Dashboard</title>
-    {{ plot|safe }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index_styles.css') }}">
+
 </head>
 <body>
-    <h1>Print Job Data Analysis Dashboard</h1>
-    <ul>
-        <li><a href="/printer_performance_analysis">Printer Performance Analysis</a></li>
-    </ul>
+    <div id="LINK">
+        <h1><a href="/printer_performance_analysis">Printer Performance Analysis</a></h1>
+    </div>
+
+
+
+
 </body>
 </html>
