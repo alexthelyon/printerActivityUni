@@ -4,6 +4,7 @@ body, html {
     padding: 0;
     background-color: #E5ECF6;
 
+
 }
 
 #HomeButton {
@@ -21,28 +22,39 @@ body, html {
     align-items: center;
     height: 20%;
     font-family: 'Roboto', sans-serif;
-    text-decoration: solid;    
+    text-decoration: solid;
 }
 
-
-
-
+#intro {
+    text-align: center;
+}
 
 
 
 .graph-container {
-    width: 90%; /* Set the width of the container */
-    margin: 0 auto; /* Center the container */
-    border-radius: 20px; /* Adjust the value to control the curvature */
-    overflow: hidden; /* Ensure content within the container respects the rounded corners */
+    width: 90%; 
+    margin: 0 auto; 
+    border-radius: 20px; /* Rounds Corners */
+    overflow: hidden; /* Hides content outside curved corners */
     margin-bottom: 50px;
+    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+
+#graph-container:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add shadow effect on hover */
+
 }
 
 .changeable_graph_container {
-    width: 90%; /* Set the width of the container */
-    margin: 0 auto; /* Center the container */
-    border-radius: 20px; /* Adjust the value to control the curvature */
-    overflow: hidden; /* Ensure content within the container respects the rounded corners */
+    width: 90%; 
+    margin: 0 auto; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    transition: box-shadow 0.3s ease; 
+}
+
+#changeable_graph_container:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); 
 }
 
 
@@ -52,20 +64,27 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 20px; /* Adjust the value to control the curvature */
-    overflow: hidden; /* Ensure content within the container respects the rounded corners */
+    border-radius: 20px; 
+    overflow: hidden; 
 }
 
-/*--------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------Top 10 Printers*/
 
 #EfficiencySection {
-    background-color: white; /* Set background color to white */
-    padding: 10px; /* Add some padding for spacing */
-    margin-top: 20px; /* Add some margin on top */
-    border-radius: 20px; /* Add rounded corners */
-    width: 85%; /* Set the width to match the other sections */
-    margin-left: auto; /* Center the container */
-    margin-right: auto; /* Center the container */
+    background-color: white; 
+    padding: 10px; 
+    margin-top: 20px; 
+    border-radius: 20px; 
+    width: 85%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    transition: box-shadow 0.3s ease; 
+
+    
+}
+
+#EfficiencySection:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); 
 }
 
 /* Most Effective Printers Analysis */
@@ -74,7 +93,6 @@ body, html {
     margin-bottom: 50px;
 }
 
-/* Top Text */
 #Top10Printers_TopText {
     text-align: center;
 }
@@ -95,22 +113,17 @@ body, html {
 /* Top 10 Printers Table */
 #Top10PrintersTable {
     margin-top: 20px;
-    margin-left: auto;  /* Center the table horizontally */
-    margin-right: auto; /* Center the table horizontally */
-    width: 90%; /* Set the width of the table */
-    background-color: white; /* Set the background color to white */
-    border-bottom: 2px solid white; /* Add a white border underneath */
-
-
+    margin-left: auto;  
+    margin-right: auto; 
+    width: 90%; 
+    background-color: white; 
+    border-bottom: 2px solid white; 
 }
 
 #Top10PrintersTable table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
-
-
-
 }
 
 #Top10PrintersTable th, #Top10PrintersTable td {
@@ -125,7 +138,7 @@ body, html {
     background-color: #f2f2f2;
 }
 
-/* Efficiency Explanation */
+
 #EfficiencyExplanation {
     margin-top: 20px;
 
@@ -137,4 +150,64 @@ body, html {
     font-family: 'Roboto', sans-serif;
 
     
+}
+
+
+/* -----------------------------------------------------------------------------------------------------------Print Outliers Analysis */
+#PrintOutliersAnalysis {
+    background-color: white; 
+    padding: 10px; 
+    margin-top: 40px; 
+    border-radius: 20px; 
+    width: 85%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    transition: box-shadow 0.3s ease; 
+}
+
+#PrintOutliersAnalysis:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); 
+}
+
+#OutliersTopText {
+    text-align: center;
+}
+
+#OutliersTopText h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: underline;
+}
+
+#OutliersTopText p {
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Outliers Table */
+#OutliersTable {
+    margin-top: 20px;
+    margin-left: auto;  /* Center the table*/
+    margin-right: auto; /* Center the table*/
+    width: 90%; /* Set the width of the table */
+    background-color: white; /* Set the background color to white */
+    border-bottom: 2px solid white; 
+}
+
+#OutliersTable table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#OutliersTable th, #OutliersTable td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#OutliersTable th {
+    background-color: #f2f2f2;
 }

@@ -10,7 +10,6 @@
 </head>
 <body>
 
-
     <div id="HomeButton">
         <p><a href="/">DTS402 Challenge - Alexanda Lyon</a></p>
     </div>
@@ -20,6 +19,14 @@
             <div id="PrintPerformanceAnalysis">
                 <h1>Printer Performance Throughout The Day</h1>
             </div>
+        <div id="intro">
+            <h3>
+                To create this dashboard I used Flask architecture in Python, generating the graphs with Plotly.<br>
+                To stylise the page I used CSS and for little interaction features I used JavaScript.<br>
+                The dataset used in this dashboard is official data from one of Ricoh's clients. Which holds printer activity throughout an entire day.<br>
+                The dataset is in an excel format, so I shyed away from using a SQL database and extracted data using Pandas "read_excel" functions.
+            </h3>
+        </div>
         </div>
     </div>
 
@@ -32,7 +39,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Graph 2 & 3 (Print Frequency) -->
     <div id="PrintFrequency">
@@ -95,6 +101,43 @@
 
         </div>
     </div>
+
+
+    <!-- Table 2 (Outliers) -->
+    <div id="PrintOutliersAnalysis">
+        <div id="OutliersTopText">
+            <h1>Top 10 Print Duration Outliers</h1>
+            <p>This table shows the top 10 print duration outliers based on their print duration.</p>
+        </div>
+        <div id="OutliersTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document ID</th>
+                        <th>Printer Name</th>
+                        <th>Print Duration (seconds)</th>
+                        <th>Print Start Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, row in top_outliers.iterrows() %}
+                    <tr>
+                        <td>{{ row['DocumentID'] }}</td>
+                        <td>{{ row['PrinterName'] }}</td>
+                        <td>{{ row['PrintDurationSeconds'] }}</td>
+                        <td>{{ row['PrintStartTimestamp'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="Footer">
+        <p>Alexanda James Lyon | Ricoh | DTS402 Challenge A</p>
+    </div>
+    
+
 
 
     

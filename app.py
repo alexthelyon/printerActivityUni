@@ -41,7 +41,7 @@ def printer_performance_analysis():
 
     # <-------------------- Print Frequency Over Time Bar Chart --------------------->
     
-
+    #changed graph to bar.
     fig3 = px.bar(print_frequency, x='PrintStartTimestamp', y='Frequency', title='The Frequency Of Prints Analysis')
   
 
@@ -67,14 +67,38 @@ def printer_performance_analysis():
     # Select top 10 efficient printers
     top_efficient_printers = printer_summary.head(10)
 
+    # <-------------------- Print Time Outliers Detection --------------------->
+    
+    # This code helps us find print jobs that took unusually long or short times compared to others.
+
+    # Print Time Outliers Detection
+    # Calculate quartiles and IQR
+    Q1 = data['PrintDurationSeconds'].quantile(0.25) # The first quartile (25% of the data)
+    Q3 = data['PrintDurationSeconds'].quantile(0.75) # The third quartile (75% of the data)
+    IQR = Q3 - Q1 # The Interquartile Range (range between Q1 and Q3)
+
+    # Define lower and upper bounds for outliers
+    # These are the limits beyond which print durations are considered unusual.
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
+    # Filter the data to select outliers
+    outliers = data[(data['PrintDurationSeconds'] < lower_bound) | (data['PrintDurationSeconds'] > upper_bound)]
+
+    # Select the top 10 outliers based on their print duration
+    top_outliers = outliers.nlargest(10, 'PrintDurationSeconds')[['DocumentID', 'PrinterName', 'PrintDurationSeconds', 'PrintStartTimestamp']]
 
 
 
+    #Render everything
     return render_template('printer_performance_analysis.html', 
                            plot1=fig1.to_html(include_plotlyjs='cdn'),
                            plot2=fig2.to_html(include_plotlyjs='cdn'), 
                            plot3=fig3.to_html(include_plotlyjs='cdn'), 
-                           printer_summary=top_efficient_printers)
+                           printer_summary=top_efficient_printers,
+                           top_outliers=top_outliers)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
