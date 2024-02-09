@@ -2,6 +2,8 @@
 from flask import Flask, render_template
 import pandas as pd
 import plotly.express as px
+import numpy as np
+
 
 app = Flask(__name__)
 
@@ -15,17 +17,7 @@ def index():
 
 
 
-@app.route('/print_frequency_analysis')
-def print_frequency_analysis():
-    # Convert 'PrintStartTimestamp' to datetime
-    data['PrintStartTimestamp'] = pd.to_datetime(data['PrintStartTimestamp'].apply(lambda x: f"{pd.to_datetime('today').date()} {x}"))
-
-    # Resample data by hour and count print jobs
-    print_frequency = data.set_index('PrintStartTimestamp').resample('H').size().reset_index(name='Frequency')
-
-    # Line graph of print frequency over time
-    fig = px.line(print_frequency, x='PrintStartTimestamp', y='Frequency', title='Print Frequency Analysis')
-    return render_template('print_frequency_analysis.html', plot=fig.to_html(include_plotlyjs='cdn'))
+#@app.route('/print_frequency_analysis')
 
 
 
@@ -44,23 +36,59 @@ def printer_performance_analysis():
     fig = px.bar(printer_duration, x='PrinterName', y='PrintDurationSeconds', title='Printer Performance Analysis')
     return render_template('printer_performance_analysis.html', plot=fig.to_html(include_plotlyjs='cdn'))
 
+def print_frequency_analysis():
+    # Convert 'PrintStartTimestamp' to datetime
+    data['PrintStartTimestamp'] = pd.to_datetime(data['PrintStartTimestamp'].apply(lambda x: f"{pd.to_datetime('today').date()} {x}"))
+
+    # Resample data by hour and count print jobs
+    print_frequency = data.set_index('PrintStartTimestamp').resample('H').size().reset_index(name='Frequency')
+
+    # Line graph of print frequency over time
+    fig = px.line(print_frequency, x='PrintStartTimestamp', y='Frequency', title='Print Frequency Analysis')
+    return render_template('printer_performance_analysis.html', plot=fig.to_html(include_plotlyjs='cdn'))
+
+
 
 @app.route('/document_usage_analysis')
 def document_usage_analysis():
-    # Count of each document printed
-    document_counts = data['DocumentID'].value_counts().reset_index()
-    document_counts.columns = ['DocumentID', 'Count']
+    # Count the number of times each document is printed
+    document_counts = data['DocumentID'].value_counts()
 
-    # Group all documents except the top N most printed as "Others"
-    top_n = 10
-    top_documents = document_counts.head(top_n)
-    other_count = document_counts.iloc[top_n:]['Count'].sum()
-    top_documents.loc[top_n] = ['Others', other_count]
+    # Categorize documents based on the number of prints
+    bins = [1, 2, 3, 4, np.inf]
+    labels = ['Printed Once', 'Printed Twice', 'Printed Thrice', 'Printed Four Times or More']
+    document_counts_categorized = pd.cut(document_counts, bins=bins, labels=labels, right=False)
 
-    # Create a bar plot
-    fig = px.bar(top_documents, x='DocumentID', y='Count', title='Document Usage Analysis - Top {}'.format(top_n))
+    # Count the documents in each category
+    categorized_counts = document_counts_categorized.value_counts()
+
+    # Create a pie chart
+    fig = px.pie(names=categorized_counts.index, values=categorized_counts.values, title='Document Usage Analysis')
 
     return render_template('document_usage_analysis.html', plot=fig.to_html(include_plotlyjs='cdn'))
+
+
+
+@app.route('/efficient_printers_analysis')
+def efficient_printers_analysis():
+    # Calculate total print duration and count of prints for each printer
+    printer_summary = data.groupby('PrinterName').agg(
+        total_duration=('PrintDurationSeconds', 'sum'),
+        total_prints=('PrinterName', 'count')
+    ).reset_index()
+
+    # Calculate average print duration for each printer
+    printer_summary['average_duration'] = printer_summary['total_duration'] / printer_summary['total_prints']
+
+    # Calculate efficiency metric: inverse of average duration times total prints
+    # Higher efficiency means lower average duration and higher total prints
+    printer_summary['efficiency'] = 1 / (printer_summary['average_duration'] * printer_summary['total_prints'])
+
+    # Sort printers by efficiency and select top 10
+    top_efficient_printers = printer_summary.sort_values(by='efficiency', ascending=False).head(10)
+
+    return render_template('efficient_printers_analysis.html', printer_summary=top_efficient_printers)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
