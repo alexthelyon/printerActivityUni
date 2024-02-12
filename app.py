@@ -47,6 +47,13 @@ def printer_performance_analysis():
 
 
     # <-------------------- Total Individual Printer Usage --------------------->
+
+    #This analysis shows the most used printers throughout the day. In a workplace scenario, we can spread the prints evenly throughout all the printers, and put less stress on more utilised ones.
+    #Why are some printers heavily used? There a number of reasons why printers such as END-SWA01 are used so much. Perhaps this printer is used only for heavy duty documents and is used for longer printable documents, perhaps the printer is the main printer is a big department and is the easiest to get to by employees, or perhaps it is the slowest to print! This analysis is based of print seconds. More analysis is needed to get to the bottom of this.
+    #We know for a fact END-SWA01 is not in the top10 most effecitive printers with analysis done thurther down the code, this is a great position to continue analysing why this printer has so many seconds on the clock.
+    #So if you ask me, what can I do to make this dashboard better. I would go more indepth on printer END-SWA01, and understand its situation. I would also require data for another day, and see if the trend continues onto another day. 
+    #Constant data streams into this dashboard after eachday would be amazing in seeing if this is common or an anomaly. 
+    
     
 
     printer_duration = data.groupby('PrinterName')['PrintDurationSeconds'].sum().reset_index()
@@ -54,6 +61,10 @@ def printer_performance_analysis():
 
 
     # <-------------------- Print Frequency Over Time Line Graph --------------------->
+
+    # This analysis is used to show peak print times and slower periods throughout the day. In a workplace scenario , this data can help identify indiciduals when to print their documents if they want the print time to be lower. 
+    # Looking at the graph, most prints are done throughout the night, past 5pm. Why? I personally beleive this company schedules prints for after everyone leaves so there is no human interuption. I also beleive this is done so the prints are completed for the next day when they're needed. Efficenty wise - very understandble. 
+    # Lastly, I beleive the printers run more out of office hours in the evening due to energy costs, perhaps the energy rate is cheaper outside of office hours - so they exploit the cheap rates and run the most prints on a schedule.
     
 
     # Convert 'PrintStartTimestamp' to datetime
@@ -71,6 +82,9 @@ def printer_performance_analysis():
   
 
     # <-------------------- Printer Efficiency --------------------->
+    
+    # Calculating an efficeincy score for the top 10 printers by taking in the amount of prints they have produced and the time taken while printing. The efficiency score is calculated so in a real world situation the company can put more heavy duty documents into these faster printers. 
+     # Doing this analysis consistently after each day will help certify how effective each printer is. 
     
 
     printer_summary = data.groupby('PrinterName').agg(total_duration=('PrintDurationSeconds', 'sum'),
@@ -94,7 +108,8 @@ def printer_performance_analysis():
 
     # <-------------------- Print Time Outliers Detection --------------------->
     
-    # This code helps us find print jobs that took unusually long or short times compared to others.
+    # This code helps us find print jobs that took unusually long or short times compared to others. In a workplace enviroment this would help locate issues with certain documents and printers. 
+    # As I also provide the timestamp, we can see if the outlier was caused during peaktimes or was caused at a slow time.
 
     # Print Time Outliers Detection
     # Calculate quartiles and IQR
